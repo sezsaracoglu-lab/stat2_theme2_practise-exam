@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methods &amp; Statistics II — Meeting 3 · Three Practice Exams</title>
+<style>
+:root{
+  --gold:#c9a96e; --gold-deep:#8d6f34; --gold-soft:#f6eeda; --gold-line:#e3d2ab;
+  --paper:#fbf7ef; --paper-2:#f6f1e5; --card:#fffdf8; --card-2:#faf5ea;
+  --line:#e4dac6; --line-2:#efe7d6;
+  --ink:#2b2a26; --ink-2:#4b4840; --ink-3:#7a7466;
+  --navy:#1c3454; --navy-2:#2f4d74; --navy-soft:#e8edf4; --navy-line:#c3cfdf;
+  --sage:#4e7154; --sage-soft:#e7efe6; --sage-ink:#23331f;
+  --rose:#8e4a45; --rose-soft:#f5e6e3; --rose-ink:#43201d;
+  --serif:'Cormorant Garamond','Times New Roman','DejaVu Serif',Georgia,serif;
+  --sans:'DM Sans','Helvetica Neue',Arial,'DejaVu Sans',sans-serif;
+  --mono:'DM Mono','SFMono-Regular',Consolas,'Liberation Mono',monospace;
+  --shadow:0 1px 2px rgba(60,48,20,.05),0 3px 12px rgba(60,48,20,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper); color:var(--ink); font-family:var(--sans);
+     font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased}
+
+/* ---------------------------------------------------- sticky header */
+header{
+  position:sticky; top:0; z-index:20; background:rgba(251,247,239,.96);
+  border-bottom:1px solid var(--line); backdrop-filter:blur(8px);
+}
+.hin{max-width:940px; margin:0 auto; padding:14px 22px;
+     display:flex; align-items:center; gap:20px; flex-wrap:wrap}
+.htitle{font-family:var(--serif); font-size:25px; font-weight:700; color:var(--navy);
+        line-height:1.1; margin:0; letter-spacing:-.01em}
+.hsub{font-size:9.4px; letter-spacing:.17em; text-transform:uppercase;
+      color:var(--gold-deep); font-weight:700; margin-top:5px}
+.stats{margin-left:auto; display:flex; gap:20px}
+.stat{text-align:right}
+.stat .sl{font-size:8.6px; letter-spacing:.17em; text-transform:uppercase; color:var(--ink-3); font-weight:700}
+.stat .sv{font-family:var(--serif); font-size:23px; font-weight:700; color:var(--navy); line-height:1.2}
+.stat .sv.dim{color:var(--ink-3)}
+
+/* ---------------------------------------------------- tabs */
+.tabwrap{background:var(--paper-2); border-bottom:1px solid var(--line)}
+.tabs{max-width:940px; margin:0 auto; padding:0 22px; display:flex; gap:0; flex-wrap:wrap}
+.tab{
+  appearance:none; cursor:pointer; font-family:var(--sans); text-align:left;
+  background:transparent; border:none; border-bottom:2.5px solid transparent;
+  padding:13px 18px 12px; color:var(--ink-3); transition:all .14s ease; line-height:1.25;
+}
+.tab .tn{font-size:9px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; display:block; color:var(--ink-3)}
+.tab .tt{font-size:14px; font-weight:600; display:block; margin-top:3px; color:var(--ink-2)}
+.tab .tc{font-size:10.6px; font-family:var(--mono); display:block; margin-top:3px; color:var(--ink-3)}
+.tab:hover{background:var(--gold-soft)}
+.tab:hover .tt{color:var(--navy)}
+.tab[aria-selected="true"]{border-bottom-color:var(--gold); background:var(--card)}
+.tab[aria-selected="true"] .tn{color:var(--gold-deep)}
+.tab[aria-selected="true"] .tt{color:var(--navy); font-weight:700}
+.tab[aria-selected="true"] .tc{color:var(--gold-deep)}
+
+.wrap{max-width:940px; margin:0 auto; padding:26px 22px 90px}
+
+.intro{color:var(--ink-2); font-size:14.4px; line-height:1.66; margin:0 0 6px; max-width:76ch}
+.intro b{color:var(--navy)}
+.src{font-size:11.8px; color:var(--ink-3); margin:9px 0 0; font-style:italic}
+.bar{height:6px; background:var(--line-2); border-radius:99px; overflow:hidden; margin:20px 0 5px}
+.bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--gold-deep)); transition:width .3s ease}
+.barlab{font-size:10.4px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600}
+.tools{display:flex; gap:9px; flex-wrap:wrap; margin:18px 0 6px; align-items:center}
+.btn{font-family:var(--sans); font-size:12.4px; font-weight:600; color:var(--ink-2);
+     background:var(--card); border:1px solid var(--line); border-radius:9px;
+     padding:8px 15px; cursor:pointer; transition:all .13s ease; box-shadow:var(--shadow)}
+.btn:hover{border-color:var(--gold); color:var(--gold-deep); background:var(--gold-soft)}
+.btn.on{background:var(--navy); border-color:var(--navy); color:#fffdf8}
+
+/* ---------------------------------------------------- data panel */
+.dataset{
+  background:var(--card); border:1px solid var(--line); border-left:4px solid var(--gold);
+  border-radius:12px; padding:0; margin:18px 0 4px; overflow:hidden; box-shadow:var(--shadow);
+}
+.dataset > summary{
+  cursor:pointer; padding:12px 16px; font-size:13px; font-weight:700; color:var(--navy);
+  list-style:none; display:flex; align-items:center; gap:9px;
+}
+.dataset > summary::-webkit-details-marker{display:none}
+.dataset > summary::after{content:'▾'; margin-left:auto; color:var(--ink-3); font-size:12px}
+.dataset[open] > summary::after{content:'▴'}
+.dataset .dsin{padding:2px 16px 16px; font-size:13.2px; color:var(--ink-2)}
+.dataset table{border-collapse:collapse; margin:8px 0 2px; font-size:12.8px; min-width:min(100%,380px)}
+.dataset th,.dataset td{padding:6px 11px; border:1px solid var(--line); text-align:right}
+.dataset th{color:var(--navy); font-weight:700; font-size:11.4px; text-align:right; background:var(--navy-soft)}
+.dataset td{background:var(--card)}
+.dataset td:first-child,.dataset th:first-child{text-align:left}
+.dataset .dsg{display:flex; gap:22px; flex-wrap:wrap}
+.dataset p{margin:8px 0 0; font-size:12.8px; line-height:1.6}
+.dataset p b{color:var(--navy)}
+
+/* ---------------------------------------------------- sections */
+.sec{margin:40px 0 16px}
+.sec .sn{font-size:9.4px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep); font-weight:700}
+.sec .st{font-family:var(--serif); font-size:28px; font-weight:700; color:var(--navy); margin-top:4px}
+.sec .sr{height:1px; background:var(--line); margin-top:12px}
+
+/* ---------------------------------------------------- question cards */
+.q{background:var(--card); border:1px solid var(--line); border-radius:14px;
+   padding:19px 21px 20px; margin-bottom:13px; box-shadow:var(--shadow)}
+.qh{display:flex; align-items:center; gap:10px; margin-bottom:11px; flex-wrap:wrap}
+.qn{font-family:var(--mono); font-size:11px; color:var(--gold-deep); letter-spacing:.07em; font-weight:500}
+.qtag{font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-deep);
+      background:var(--gold-soft); border:1px solid var(--gold-line); border-radius:99px; padding:3px 10px; font-weight:700}
+.qq{font-size:15.2px; color:var(--ink); line-height:1.62; margin-bottom:14px; font-weight:500}
+.qq b{color:var(--navy)}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{display:flex; gap:12px; align-items:flex-start; text-align:left; width:100%;
+     font-family:var(--sans); font-size:14px; color:var(--ink-2); line-height:1.5;
+     background:var(--paper); border:1.5px solid var(--line); border-radius:10px;
+     padding:11px 14px; cursor:pointer; transition:all .12s ease}
+.opt:hover:not(:disabled){border-color:var(--gold); background:var(--gold-soft); color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt .ol{font-family:var(--mono); font-size:11.4px; font-weight:700; color:var(--ink-3);
+         border:1px solid var(--line); border-radius:6px; min-width:22px; height:22px;
+         display:grid; place-items:center; flex:none; background:var(--card)}
+.opt .mk{margin-left:auto; font-size:10px; letter-spacing:.11em; text-transform:uppercase;
+         font-weight:700; flex:none; align-self:center; display:none}
+.opt.correct{background:var(--sage-soft); border-color:var(--sage); color:var(--sage-ink)}
+.opt.correct .ol{background:var(--sage); border-color:var(--sage); color:#fff}
+.opt.correct .mk{display:block; color:var(--sage)}
+.opt.wrong{background:var(--rose-soft); border-color:var(--rose); color:var(--rose-ink)}
+.opt.wrong .ol{background:var(--rose); border-color:var(--rose); color:#fff}
+.opt.wrong .mk{display:block; color:var(--rose)}
+
+.ansline{display:none; margin-top:13px; align-items:center; gap:10px; flex-wrap:wrap;
+         font-size:13px; color:var(--ink-2)}
+.ansline.show{display:flex}
+.ansline .pill{font-family:var(--mono); font-size:11.6px; font-weight:700;
+               border-radius:7px; padding:5px 11px; letter-spacing:.04em}
+.ansline .pill.ok{background:var(--sage-soft); color:#2f6b34; border:1px solid var(--sage)}
+.ansline .pill.no{background:var(--rose-soft); color:#9a3b34; border:1px solid var(--rose)}
+.ansline b{color:var(--navy)}
+
+.expl{display:none; margin-top:12px; padding:13px 16px; border-radius:11px;
+      background:var(--navy-soft); border:1px solid var(--navy-line); border-left:4px solid var(--navy);
+      font-size:13.6px; line-height:1.68; color:#22323f}
+.expl.show{display:block}
+.expl b{color:var(--navy)}
+.expl .el{font-size:9.4px; letter-spacing:.15em; text-transform:uppercase; color:var(--navy);
+          font-weight:700; margin-bottom:6px}
+
+/* ---------------------------------------------------- result */
+.done{display:none; margin-top:26px; background:var(--gold-soft); border:1px solid var(--gold-line);
+      border-left:5px solid var(--gold); border-radius:13px; padding:20px 22px; color:#4a3a16}
+.done.show{display:block}
+.done .dt{font-family:var(--serif); font-size:36px; font-weight:700; color:var(--gold-deep); line-height:1.1}
+.done .dd{color:#5c4a22; font-size:13.8px; margin-top:6px}
+.done table{border-collapse:collapse; width:100%; margin-top:14px; font-size:13px}
+.done td{padding:6px 8px; border-top:1px solid var(--gold-line); color:#4a3a16}
+.done td:last-child{text-align:right; font-family:var(--mono); font-size:12.4px; color:var(--gold-deep); font-weight:500}
+.done .grade{margin-top:13px; font-size:13.6px; color:#4a3a16}
+.done .grade b{color:var(--gold-deep)}
+
+footer{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
+       font-size:11.8px; color:var(--ink-3); line-height:1.7}
+footer b{color:var(--ink-2)}
+
+@media (max-width:640px){
+  .hin{padding:12px 15px; gap:12px}
+  .htitle{font-size:20px}
+  .stats{margin-left:0; gap:16px}
+  .tabs{padding:0 10px}
+  .tab{padding:11px 12px 10px}
+  .tab .tt{font-size:13px}
+  .wrap{padding:20px 14px 60px}
+  .sec .st{font-size:22px}
+  .opt{font-size:13.4px}
+  .opt .mk{display:none !important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hin">
+    <div>
+      <h1 class="htitle">Methods &amp; Statistics II</h1>
+      <div class="hsub" id="hsub">Meeting 3 · three practice exams · Erasmus University Rotterdam</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sl">Score</div><div class="sv" id="sc">0 / 0</div></div>
+      <div class="stat"><div class="sl">Remaining</div><div class="sv dim" id="rem">30</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="tabwrap"><div class="tabs" id="tabs" role="tablist"></div></div>
+
+<div class="wrap">
+
+<p class="intro" id="intro"></p>
+<p class="src" id="src"></p>
+
+<details class="dataset" id="dsBox"><summary>📋 <span id="dsTitle">The data these questions use</span></summary>
+  <div class="dsin" id="dsBody"></div>
+</details>
+
+<div class="bar"><i id="bar"></i></div>
+<div class="barlab" id="barlab">Nothing answered yet</div>
+
+<div class="tools">
+  <button class="btn" id="btnWrong">Show only my mistakes</button>
+  <button class="btn" id="btnReveal">Reveal all answers</button>
+  <button class="btn" id="btnReset">↺ Start this test again</button>
+</div>
+
+<div id="list"></div>
+<div class="done" id="done"></div>
+
+<footer>
+  Three exams built from the three documents your tutor gave you for this meeting: <b>Worked Example 4</b> (“Let’s go outside!”),
+  <b>Homework Assignment 3</b> (the chi-square family) and <b>Practical Assignment 3</b> (“Who is going to become a bully?”).<br>
+  Every question type in all three documents is covered. The numbers are new — including the homework’s, so the answer key you already have
+  will not shortcut it — and every figure was computed independently before the question was written, so the wrong options are the values the
+  common wrong routes actually produce.<br>
+  Each test keeps its own score. Your answers are not saved anywhere — closing the page starts you fresh.
+</footer>
+
+</div>
+
+<script>
+/* ===========================================================================
+   TEST A — Worked Example 4: "Let's go outside!"
+   Correlation in practice: design, scatterplots, z-scores, Pearson's r,
+   testing r, r², transformations and outliers. 30 items.
+   Running study: 100 children, hours played outdoors per week against six
+   questionnaire variables (each scored 1–100).
+     Hours & Cognition   r = +0.42    Hours & Overweight  r = −0.31
+     Hours & Motor       r = +0.55    Hours & Activity    r = +0.61
+     Hours & Social      r = +0.36    Hours & Stress      r = −0.24
+   Hours: mean 8.5, SD 3.2, lowest value in the set 1.
+     Also used: Motor & Overweight r = −0.29, p = .003 (a correlation not involving Hours).
+   =========================================================================== */
+var TESTA = [
+
+/* ---------------------------------------------- design & measurement (7) */
+{s:'Design &amp; measurement', n:'A1',
+ q:'Researchers ask 100 children how many hours a week they play outdoors, and then have them fill in questionnaires on cognitive, motor and socio-emotional performance. Nobody is told how much to play. Is this experimental or correlational?',
+ o:['Correlational — hours outdoors was measured, not assigned',
+    'Experimental — there is a clear independent and dependent variable',
+    'Experimental — because 100 children is a large enough sample',
+    'Correlational — because the questionnaires are subjective'],
+ a:0,
+ x:'The decisive question is always <b>did the researcher assign anyone to a condition?</b> Nobody was told to play four hours or twelve; the children played as they already did and then reported it. That makes the study <b>correlational</b>. Having a clear predictor and outcome does not make a study an experiment, and neither sample size nor the subjectivity of the measures changes the label.'},
+
+{s:'Design &amp; measurement', n:'A2',
+ q:'Cognitive, motor and socio-emotional performance are each scored on a scale from 1 to 100. What measurement level does the course treat these as?',
+ o:['Interval — equal-appearing units, but no meaningful absolute zero',
+    'Ratio — a score of 80 is twice a score of 40',
+    'Ordinal — the scores only rank the children',
+    'Nominal — the numbers are just labels'],
+ a:0,
+ x:'<b>Interval.</b> A constructed 1–100 psychological scale is treated as having equal units, so differences are meaningful — but a score of 0 would not mean “no cognition at all”, so the zero is arbitrary. That is exactly why it is not <em>ratio</em>: without a true zero you cannot say 80 is twice 40. What matters practically is that interval data are quantitative, which is what lets you compute a correlation at all.'},
+
+{s:'Design &amp; measurement', n:'A3',
+ q:'ADHD, obesity, anxiety disorder and sleep disorder are each coded <b>0 = absent, 1 = present</b>. What is their measurement level?',
+ o:['Nominal','Ordinal','Interval','Ratio'],
+ a:0,
+ x:'<b>Nominal.</b> Two unordered categories with numeric labels: 0 and 1 could equally be “no” and “yes”. Being written as digits does not make a variable quantitative. The practical consequence is that these four variables cannot go into a Pearson correlation with Hours in the ordinary way — they are counted, so they belong to chi-square territory.'},
+
+{s:'Design &amp; measurement', n:'A4',
+ q:'Which is the explanatory (independent) variable in the research question “does playing outdoors affect children’s cognitive performance?”',
+ o:['Hours played outdoors','Cognitive performance','The questionnaire','The 100 children'],
+ a:0,
+ x:'The explanatory variable is the one doing the explaining — <b>hours played outdoors</b> — and it goes on the x axis. Cognitive performance is the response variable, on the y axis. Test it with the sentence: “does <u>playing outdoors</u> affect <u>cognition</u>?” reads naturally; the reverse does not. Note that correlation would give the same r either way; only regression and the scatterplot care.'},
+
+{s:'Design &amp; measurement', n:'A5',
+ q:'Are these variables measured between-subjects or within-subjects?',
+ o:['Between-subjects — each child gives one value per variable, and children are compared with one another',
+    'Within-subjects — each child is measured on several variables',
+    'Within-subjects — because every child fills in every questionnaire',
+    'Neither, because the design is correlational'],
+ a:0,
+ x:'<b>Between-subjects.</b> Measuring seven things on one child does not make the design within-subjects. That term is reserved for measuring the <em>same</em> variable on the same person more than once — for instance cognition before and after a summer of outdoor play. Here every comparison is across children.'},
+
+{s:'Design &amp; measurement', n:'A6',
+ q:'Suppose hours outdoors correlates positively with cognitive performance. Which of the three causality conditions fails most clearly?',
+ o:['Elimination of alternative explanations — a confounder such as family income could produce both',
+    'Covariation — the two variables do not actually move together',
+    'Temporal order — cognition was measured before outdoor play',
+    'None fail, so outdoor play causes better cognition'],
+ a:0,
+ x:'<b>Covariation</b> is established by the correlation itself. Temporal order is murky but arguable. What fails outright is <b>the elimination of alternative explanations</b>: wealthier families have gardens, safer streets and more enrichment at home, so <em>income</em> could produce the outdoor play <b>and</b> the cognitive scores independently. One clean failure is enough to block the causal claim.'},
+
+{s:'Design &amp; measurement', n:'A7',
+ q:'Which pair correctly gives one advantage and one disadvantage of this type of correlational study?',
+ o:['Advantage: it can study variables that could never be manipulated ethically. Disadvantage: it cannot establish causation.',
+    'Advantage: it proves causation cheaply. Disadvantage: it needs a very large sample.',
+    'Advantage: it removes all confounders. Disadvantage: the results cannot be generalised.',
+    'Advantage: no statistics are required. Disadvantage: it takes a long time.'],
+ a:0,
+ x:'The real trade-off. <b>Advantages:</b> you can study things no ethics committee would let you assign — you cannot randomly forbid a child to go outdoors for a year — and you observe behaviour as it really occurs. <b>Disadvantages:</b> causation stays out of reach, and confounders remain uncontrolled. Note what correlational designs never do: remove confounders, or prove causation.'},
+
+/* ---------------------------------------------- scatterplots (5) */
+{s:'Scatterplots', n:'A8',
+ q:'The assignment asks you to fix every scatterplot’s y axis to run from 0 to 100. Why does that matter?',
+ o:['So the six plots can be compared fairly — a different scale can make the same relationship look stronger or weaker',
+    'Because SPSS cannot draw a scatterplot otherwise',
+    'Because it changes the correlation to a comparable value',
+    'Because the variables are measured on a 1–100 scale, so the axis must match exactly'],
+ a:0,
+ x:'A steep-looking cloud may only be steep because the axis was squeezed. Fixing every plot to <b>the same 0–100 range</b> means the six pictures can be laid side by side and compared honestly. Crucially, rescaling an axis changes only the <em>picture</em>: r is computed from z-scores and does not move at all. That is precisely why the eye needs help and r does not.'},
+
+{s:'Scatterplots', n:'A9',
+ q:'A scatterplot of Hours against Activity shows a cloud rising steadily from bottom-left to top-right, fairly tightly packed. How would you describe it?',
+ o:['A strong, positive, linear relationship',
+    'A weak, positive, linear relationship',
+    'A strong, negative, linear relationship',
+    'A non-linear relationship'],
+ a:0,
+ x:'Three words, in order. <b>Direction</b>: positive, because it rises. <b>Form</b>: linear, because it follows a straight band rather than a curve. <b>Strength</b>: strong, because the points hug that band. The assignment’s own bands are useful to memorise — <b>0.10 or less = weak, around 0.30 = medium, 0.50 or over = strong</b> — and this plot corresponds to r = +0.61.'},
+
+{s:'Scatterplots', n:'A10',
+ q:'A scatterplot of Hours against Overweight slopes downward. What does that tell you before any number is computed?',
+ o:['The correlation will be negative — children who play outdoors more tend to score lower on being overweight',
+    'The correlation will be close to zero',
+    'Playing outdoors reduces being overweight',
+    'The relationship must be non-linear'],
+ a:0,
+ x:'A downward slope means <b>negative</b>: above-average hours tend to go with below-average scores. That is all it means. The causal reading — that outdoor play <em>reduces</em> weight — goes beyond the data; it is equally consistent with heavier children finding outdoor play harder, or with a third variable driving both.'},
+
+{s:'Scatterplots', n:'A11',
+ q:'Which scatterplot pattern would give a correlation near zero <em>despite</em> a very strong relationship between the two variables?',
+ o:['A clear U-shape (or inverted U)','A tight upward straight line',
+    'A tight downward straight line','A cloud with one extreme outlier'],
+ a:0,
+ x:'Pearson’s r measures only <b>straight-line</b> association. In a symmetric <b>U-shape</b> the falling half and the rising half contribute products of opposite sign that cancel, so r lands near <b>0</b> even though y is almost perfectly determined by x. This is the single best argument for drawing the plot before trusting the number.'},
+
+{s:'Scatterplots', n:'A12',
+ q:'Why is the scatterplot a poor tool for judging the <em>strength</em> of a correlation, even though it is good for judging the sign?',
+ o:['The apparent tightness of the cloud depends on the axis scaling, and the eye judges degree unreliably',
+    'Scatterplots cannot show negative relationships',
+    'Scatterplots only work for samples smaller than 30',
+    'The eye cannot see whether a relationship is positive or negative'],
+ a:0,
+ x:'The direction is obvious at a glance; the <em>degree</em> is not. Stretching one axis makes the same data look tighter or looser, and judgements of degree by eye are unreliable in both directions — a cloud most people would call “a decent relationship” is usually around <b>r = 0.5</b>. That is why the assignment has you compute r rather than estimate it: the number is the honest part.'},
+
+/* ---------------------------------------------- z-scores & quadrants (5) */
+{s:'Z-scores &amp; the quadrants', n:'A13',
+ q:'In the Hours variable the mean is 8.5 and the standard deviation is 3.2. The child who played least managed only 1 hour a week. What is that child’s z-score?',
+ o:['−2.344','−7.500','2.344','−0.427'],
+ a:0,
+ x:'z = (x − mean) ÷ SD = (1 − 8.5) ÷ 3.2 = −7.5 ÷ 3.2 = <b>−2.344</b>.<br>Read it: this child is about 2.3 standard deviations <em>below</em> average — a genuinely unusual value, since only about 1% of a normal distribution sits that low. (−7.500 is the raw deviation before dividing by the SD; −0.427 comes from dividing the wrong way round; and the sign must stay negative for a below-average score.)'},
+
+{s:'Z-scores &amp; the quadrants', n:'A14',
+ q:'What is the advantage of plotting z(Hours) against z(Social) rather than the raw variables?',
+ o:['Both axes are in the same units — standard deviations — so the zero lines split the plot into four interpretable quadrants',
+    'It makes the correlation larger',
+    'It removes outliers from the data',
+    'It turns a curved relationship into a straight one'],
+ a:0,
+ x:'Standardising puts both variables on <b>one common scale</b>: “how many SDs from that variable’s own mean”. Drawing reference lines at z = 0 then divides the plot into four quadrants with a clear meaning — above or below average on each variable. What it does <em>not</em> do is change r, remove outliers, or straighten a curve; the picture is re-labelled, not re-shaped.'},
+
+{s:'Z-scores &amp; the quadrants', n:'A15',
+ q:'On a plot of z(Hours) against z(Social), which quadrants make a <b>positive</b> contribution to the correlation?',
+ o:['Top-right and bottom-left — where the two z-scores have the same sign',
+    'Top-left and bottom-right — where the signs differ',
+    'Only the top-right — where both are above average',
+    'All four contribute positively, because products are squares'],
+ a:0,
+ x:'r is the average of the products z<sub>x</sub> × z<sub>y</sub>. <b>Top-right</b>: both positive, product positive. <b>Bottom-left</b>: both negative, and a negative times a negative is <b>positive</b> too. The other two quadrants mix signs and give negative products. So a positive r means most children sit on the “agreeing” diagonal — note that being below average on both counts just as much as being above average on both.'},
+
+{s:'Z-scores &amp; the quadrants', n:'A16',
+ q:'A child has z(Hours) = +1.50 and z(Social) = +0.80. What does this child contribute to the correlation?',
+ o:['+1.20 — a positive contribution, since the child is above average on both',
+    '+2.30 — the sum of the two z-scores',
+    '+0.70 — the difference between the two z-scores',
+    '−1.20 — because z-scores are subtracted, not multiplied'],
+ a:0,
+ x:'Each child contributes the <b>product</b> of their two z-scores: (+1.50)(+0.80) = <b>+1.20</b>. Correlation is the average of all 100 such products. Notice how much leverage an extreme child has: someone at z = +3 on both contributes +9, while a child sitting near both means contributes almost nothing. That is why r is <em>not resistant</em> to outliers.'},
+
+{s:'Z-scores &amp; the quadrants', n:'A17',
+ q:'What happens to r if the two zero reference lines split the children roughly evenly across all four quadrants?',
+ o:['r will be close to zero, because positive and negative products cancel out',
+    'r will be close to +1',
+    'r will be close to −1',
+    'r cannot be calculated in that situation'],
+ a:0,
+ x:'Even spread across the quadrants means roughly as many “agreeing” products (positive) as “disagreeing” ones (negative), and they <b>cancel</b>, leaving r near <b>0</b>. Turn it around and you have a useful mental picture of what a strong correlation looks like: the children piled onto one diagonal and the other two quadrants nearly empty.'},
+
+/* ---------------------------------------------- Pearson's r and its test (7) */
+{s:'Pearson’s r and its test', n:'A18',
+ q:'What is the null hypothesis when SPSS tests a correlation?',
+ o:['H₀: ρ = 0 — there is no linear relationship between the two variables in the population',
+    'H₀: r = 0 — the sample correlation is zero',
+    'H₀: ρ = 1 — the variables are perfectly related',
+    'H₀: the two variables are independent in the sample'],
+ a:0,
+ x:'Hypotheses are always about the <b>population</b>, so the symbol is the Greek <b>ρ</b> (rho), not r. H₀: ρ = 0 says there is no linear relationship out in the world; H₁: ρ ≠ 0 says there is one. A hypothesis about r would be pointless — you can simply look at r and see what it is.'},
+
+{s:'Pearson’s r and its test', n:'A18a',
+ q:'The assignment says: “to start off, specify what a correlation coefficient means.” Which statement does that best?',
+ o:['A single number between −1 and 1 giving the direction and the strength of the <em>linear</em> relationship between two quantitative variables',
+    'A number between 0 and 100 giving the percentage of cases where two variables agree',
+    'The average difference between two variables',
+    'The probability that two variables are related'],
+ a:0,
+ x:'Four things are packed into that sentence, and an exam answer needs all of them. r runs from <b>−1 to +1</b>; its <b>sign</b> gives the direction; its <b>distance from zero</b> gives the strength; and it measures <b>linear</b> association only, between <b>two quantitative</b> variables. It is not a percentage, not an average difference, and not a probability — that last confusion is with the p-value.'},
+
+{s:'Pearson’s r and its test', n:'A18b',
+ q:'Step 2 of the hypothesis-testing procedure asks which statistical test is performed. What does SPSS use to decide whether a Pearson correlation is significant?',
+ o:['A t-test on the correlation, with n − 2 degrees of freedom',
+    'A chi-square test with (r − 1)(c − 1) degrees of freedom',
+    'A z-test, because the sample is larger than 30',
+    'An F-test comparing the two variables’ variances'],
+ a:0,
+ x:'SPSS converts r into <b>t = r√(n − 2) ÷ √(1 − r²)</b> and reads it against a t distribution with <b>df = n − 2</b> — here 98. The assignment is explicit that you do not need to know the mechanics for this course, only how to read the output; but “which test?” is a step in the procedure, so the answer is worth having. Chi-square is for counts, and an F-test compares variances.'},
+
+{s:'Pearson’s r and its test', n:'A19',
+ q:'SPSS reports the correlation between Hours and Cognition as r = .42, p &lt; .001, with n = 100. What do you conclude at α = .05?',
+ o:['Reject H₀ — there is a significant positive linear relationship between hours outdoors and cognitive performance',
+    'Fail to reject H₀ — r = .42 is only a medium correlation',
+    'Reject H₀ and conclude that outdoor play improves cognition',
+    'Nothing, because correlation cannot be tested'],
+ a:0,
+ x:'p &lt; .001 is far below α = .05, so H₀: ρ = 0 is <b>rejected</b>. Two things to keep separate: <em>significance</em> (is the relationship real?) and <em>strength</em> (how big is it?) — a medium r can be highly significant when n = 100. And significance never upgrades a correlational finding to a causal one, however small the p-value.'},
+
+{s:'Pearson’s r and its test', n:'A20',
+ q:'Four unrelated studies report the correlations below. Which list is ordered from <b>weakest</b> to <b>strongest</b> relationship?',
+ o:['−0.24, +0.36, −0.55, +0.61','−0.55, −0.24, +0.36, +0.61',
+    '+0.36, +0.61, −0.24, −0.55','−0.24, −0.55, +0.36, +0.61'],
+ a:0,
+ x:'Strength is <b>distance from zero</b>; the sign only gives direction. So order by absolute value: 0.24 &lt; 0.36 &lt; 0.55 &lt; 0.61. The tempting mistake is to sort from most negative to most positive, which treats −0.55 as the weakest when it is in fact the second strongest relationship on the list.'},
+
+{s:'Pearson’s r and its test', n:'A21',
+ q:'Using the assignment’s own bands — weak ≤ 0.10, medium ≈ 0.30, strong ≥ 0.50 — how would you describe r = −0.31 between Hours and Overweight?',
+ o:['A medium negative relationship','A weak negative relationship',
+    'A strong negative relationship','No relationship, because r is negative'],
+ a:0,
+ x:'|−0.31| sits right at the <b>medium</b> mark, and the sign makes it <b>negative</b>: more hours outdoors goes with lower overweight scores. Both halves of the description are needed in an exam answer — a bare “medium” loses the direction, and a bare “negative” loses the size.'},
+
+{s:'Pearson’s r and its test', n:'A22',
+ q:'What are the assumptions behind the significance test for a Pearson correlation?',
+ o:['Both variables are quantitative, the relationship is linear, and the observations are independent',
+    'Both variables are categorical and the expected counts are at least 5',
+    'The sample size is at least 30 and the variances are equal',
+    'There are no assumptions — r can always be tested'],
+ a:0,
+ x:'Pearson’s r needs <b>two quantitative variables</b>, a <b>linear</b> relationship (it is blind to curves), and <b>independent observations</b> — one child’s pair of scores telling you nothing about another’s. Expected counts of 5 belong to chi-square, which is the test for categorical data. Every test has assumptions, and saying so is usually worth a mark.'},
+
+{s:'Pearson’s r and its test', n:'A23',
+ q:'How is the Hours–Stress result reported in APA style, given r = −.24, n = 100, p = .016?',
+ o:['r(98) = −.24, p = .016','r(100) = −.24, p = .016',
+    'r = −.24(98), p &lt; .05','ρ(98) = −.24, p = .016'],
+ a:0,
+ x:'The pattern is <b>r(df) = value, p = value</b>, and for a correlation <b>df = n − 2 = 98</b>. Details that earn or lose marks: it is df in the brackets, not n; the p-value has no leading zero; and the symbol is the Latin <b>r</b>, because you are reporting the sample statistic — ρ is reserved for the population parameter in the hypotheses.'},
+
+{s:'Pearson’s r and its test', n:'A24',
+ q:'Two correlations are reported: Hours–Activity r = .61, p &lt; .001, and Hours–Stress r = −.24, p = .016. Which statement is right?',
+ o:['Both are significant at α = .05, but the Activity relationship is much the stronger of the two',
+    'Only the Activity correlation is significant',
+    'The Stress correlation is stronger because its p-value is closer to α',
+    'Neither can be compared, since one is positive and one is negative'],
+ a:0,
+ x:'Both p-values are below .05, so <b>both</b> are significant. But the p-value ranks how surprising the result would be under H₀, not how large the relationship is: |.61| is far above |−.24|, so Activity is the stronger relationship by a wide margin. Negative and positive correlations compare perfectly well once you take absolute values.'},
+
+/* ---------------------------------------------- r², transformations, outliers (6) */
+{s:'r², transformations and outliers', n:'A25',
+ q:'The correlation between Hours and Cognition is r = .42. What percentage of the variance in Cognition is explained by Hours?',
+ o:['17.6%','42.0%','64.8%','4.2%'],
+ a:0,
+ x:'Square it: r² = 0.42² = <b>0.1764 = 17.6%</b>.<br>So about 82% of the differences in cognitive scores are down to something other than hours outdoors. This is why squaring matters — 0.42 sounds substantial until you see that it accounts for under a fifth of the variation. (42.0% is r read as a percentage, which is a different and much flattering-er number.)'},
+
+{s:'r², transformations and outliers', n:'A26',
+ q:'The quantity r², obtained by squaring a correlation — what is it called, and what does it mean?',
+ o:['The coefficient of determination — the proportion of the variance in one variable accounted for by the linear relationship with the other',
+    'The correlation coefficient — the strength of the linear relationship',
+    'The coefficient of variation — the spread relative to the mean',
+    'The significance level — the probability the relationship is real'],
+ a:0,
+ x:'r² is the <b>coefficient of determination</b>: the share of the variability in y that the straight-line relationship with x accounts for. It is not the correlation itself (that is r), not a measure of spread, and definitely not a probability that anything is “real” — that would be a misreading of the p-value.'},
+
+{s:'r², transformations and outliers', n:'A27',
+ q:'The correlation between Hours and Stress is r = −.24. What percentage of the variance in Stress does Hours explain?',
+ o:['5.8%','24.0%','−5.8%','48.0%'],
+ a:0,
+ x:'r² = (−0.24)² = <b>0.0576 = 5.8%</b>.<br>Squaring removes the sign, so r² is <b>never negative</b> no matter which way the relationship runs — a common slip. The substantive point: a statistically significant correlation (p = .016) can still account for under 6% of the variation. Significance and importance are different questions.'},
+
+{s:'r², transformations and outliers', n:'A28',
+ q:'You create Hours2 by adding 2 to every value of Hours, and Motor2 by multiplying every value of Motor by 8. What happens to the correlation?',
+ o:['It is exactly unchanged — r is computed from z-scores, which are unaffected by adding a constant or multiplying by a positive one',
+    'It increases, because Motor2 has a larger spread',
+    'It is multiplied by 8',
+    'It cannot be computed on transformed variables'],
+ a:0,
+ x:'Adding 2 shifts every Hours value and its mean by the same amount, so every deviation — and every z-score — is identical. Multiplying Motor by 8 scales both the deviations and the standard deviation by 8, and the 8s cancel in the ratio. So <b>r does not move at all</b>. This is the same property that makes r unit-free: centimetres or inches, the correlation is the same number.'},
+
+{s:'r², transformations and outliers', n:'A29',
+ q:'Adding 2 to every Hours value and multiplying every Motor value by 8 leaves Pearson’s r exactly unchanged. Why is that <em>not</em> peculiar, even though every number in the data set has changed?',
+ o:['A correlation describes the pattern of relative positions, and linear transformations leave every child in the same relative position',
+    'Because SPSS rounds the result to two decimals',
+    'Because adding and multiplying happen to cancel each other out here',
+    'Because the sample size is large enough for the changes not to matter'],
+ a:0,
+ x:'r asks <em>who is high and who is low, relative to their own group</em> — and adding a constant or multiplying by a positive constant does not reorder anybody or change how far out they sit in SD units. The picture would look identical with relabelled axes. (One caveat worth knowing: multiplying by a <b>negative</b> constant flips every z-score and so flips the sign of r.)'},
+
+{s:'r², transformations and outliers', n:'A30',
+ q:'You change one child’s record: their Cognition becomes 100 and their Hours becomes 100, far beyond everyone else. The correlation between Hours and Cognition jumps from .42 to .78. What has happened?',
+ o:['A single influential point has been created far out along x, and r is not resistant to such points',
+    'The relationship has genuinely become stronger',
+    'The sample size has increased',
+    'r has been computed incorrectly by SPSS'],
+ a:0,
+ x:'That child now sits enormously far from both means, so their <b>product of z-scores is huge</b> and dominates the average that makes up r. One record has been allowed to speak louder than the other 99. Nothing has gone wrong arithmetically and nothing real has changed — which is exactly why the scatterplot comes first: the inflated r would look convincing in a table, and obviously wrong in a picture.'}
+,
+{s:'r², transformations and outliers', n:'A30a',
+ q:'The output also reports a correlation that does not involve Hours at all: <b>Motor skills and Overweight, r = −.29, p = .003</b> with n = 100. How do you read it?',
+ o:['A significant, medium, negative relationship — better motor scores go with lower overweight scores, accounting for 8.4% of the variance',
+    'A non-significant relationship, because r is below 0.30',
+    'A significant relationship showing that motor skill reduces overweight',
+    'An invalid result, because neither variable is Hours'],
+ a:0,
+ x:'p = .003 &lt; .05, so it is <b>significant</b>; |−0.29| sits at the assignment’s <b>medium</b> band; the sign makes it <b>negative</b>; and r² = (−0.29)² = <b>0.084 = 8.4%</b> of the variance.<br>Two traps: significance is decided by the p-value, not by whether r clears 0.30 — with n = 100 even a modest r is significant. And a correlation between any two quantitative variables is perfectly valid; Hours holds no special status, though causation is no more available here than anywhere else in this study.'}
+
+];
+/* ===========================================================================
+   TEST B — Homework Assignment 3: the chi-square family.
+   Same question types as the 16 homework items, new tables and numbers. 30 items.
+   Tables used:
+     T1  study time × final grade, 3 × 5, N = 75
+           A  B  C  D  F | tot
+     <4h   3  4  8  5  6 |  26
+     4–8h  5  7  6  4  5 |  27
+     >8h   8  6  4  3  1 |  22
+     tot  16 17 18 12 12 |  75
+     T2  rating × tutorial group, 3 × 4, N = 160
+              G1 G2 G3 G4 | tot
+     Positive 21 26 11 14 |  72
+     Neutral   9  6  8 12 |  35
+     Negative 10  7 19 17 |  53
+     tot      40 39 38 43 | 160
+     T3  clinic × outcome, 2 × 2, N = 480
+              dropout completer | tot
+     North        18      162   | 180
+     South        15      285   | 300
+     T4  spinner, 5 equal sectors, 100 spins: 16, 25, 22, 18, 19
+   =========================================================================== */
+var TESTB = [
+
+/* ---------------------------------------------- reading a table (5) */
+{s:'Reading a two-way table', n:'B1',
+ q:'A two-way table has 4 rows and 6 columns. What are the degrees of freedom for a chi-square test?',
+ o:['15','24','18','20'],
+ a:0,
+ x:'df = (rows − 1) × (columns − 1) = (4 − 1)(6 − 1) = 3 × 5 = <b>15</b>.<br>The trap is multiplying rows by columns and getting 24 — that is the number of <em>cells</em>, not the degrees of freedom. The intuition: once the row and column totals are fixed, only 15 of the 24 cells are free to vary; the rest are forced.'},
+
+{s:'Reading a two-way table', n:'B2',
+ q:'A table classifies students by study time (under 4 hours, 4–8 hours, over 8 hours) and by final grade (A, B, C, D, F). What size is this table?',
+ o:['3 × 5','5 × 3','3 × 4','15 × 1'],
+ a:0,
+ x:'The convention is always <b>rows × columns</b>, and rows are named first. Three study-time categories down the side and five grades across the top makes a <b>3 × 5</b> table. Writing 5 × 3 describes a different table — one with five rows — even though it has the same number of cells.'},
+
+{s:'Reading a two-way table', n:'B3',
+ q:'A table has five satisfaction levels down the side (from “like very much” to “dislike very much”) and two columns, Male and Female. It is referred to as:',
+ o:['a 5 × 2 table','a 2 × 5 table','a 10 × 1 table','a 5 × 5 table'],
+ a:0,
+ x:'<b>5 × 2</b> — five rows, two columns, in that order. Its df would be (5 − 1)(2 − 1) = <b>4</b>. Getting the order right matters more than it looks: “rows first” is the convention every textbook and exam uses, and reversing it signals you have read the table the wrong way round.'},
+
+{s:'Reading a two-way table', n:'B4',
+ q:'In the study-time × grade table (3 × 5, N = 75), what is df?',
+ o:['8','15','10','74'],
+ a:0,
+ x:'df = (3 − 1)(5 − 1) = 2 × 4 = <b>8</b>. Note that the sample size plays no part whatsoever — 75 students or 7,500, the degrees of freedom depend only on the <em>shape</em> of the table. That is a useful check: if your df involves N, you have used the wrong rule.'},
+
+{s:'Reading a two-way table', n:'B5',
+ q:'Why do the row and column totals matter so much in a chi-square test of independence?',
+ o:['Every expected count is computed from them — E = row total × column total ÷ grand total',
+    'They determine the significance level',
+    'They are used to check that the sample is random',
+    'They have no role; only the cell counts matter'],
+ a:0,
+ x:'The margins are the entire source of the <b>expected</b> counts. H₀ says the two variables are unrelated, so the best guess for each cell is “that row’s share × that column’s share × N”, which simplifies to <b>row × column ÷ total</b>. A useful consequence: the expected table always reproduces the same margins as the observed one — a free check on your arithmetic.'},
+
+/* ---------------------------------------------- expected counts (6) */
+{s:'Expected counts', n:'B6',
+ q:'In the study-time × grade table, 27 students studied 4–8 hours and 17 students in total earned a B, out of N = 75. What is the expected count for “4–8 hours <em>and</em> B”?',
+ o:['6.12','7.00','4.59','6.80'],
+ a:0,
+ x:'E = row total × column total ÷ grand total = 27 × 17 ÷ 75 = 459 ÷ 75 = <b>6.12</b>.<br>The observed count is 7, so this cell is running slightly above expectation. Expected counts are almost never whole numbers, and they should not be rounded before going into the χ² formula — they are an average, not a count of actual people.'},
+
+{s:'Expected counts', n:'B7',
+ q:'In the rating × group table, 72 of 160 students gave a positive rating and 40 were in group G1. What is the expected count of positive ratings in G1?',
+ o:['18.00','21.00','17.55','20.25'],
+ a:0,
+ x:'E = 40 × 72 ÷ 160 = 2880 ÷ 160 = <b>18.00</b>.<br>Read what it means: 45% of all students rated positively, so if group made no difference, 45% of G1’s 40 students — that is 18 — would have done so. The observed count is 21, running above expectation. (21.00 is the observed value, not the expected one.)'},
+
+{s:'Expected counts', n:'B8',
+ q:'A die is rolled 120 times. If the die is fair, what is the expected number of 3s?',
+ o:['20','12','30','6'],
+ a:0,
+ x:'For a goodness-of-fit test the expected count is <b>claimed proportion × n</b>: (1/6) × 120 = <b>20</b>. Same for every face, and they add up to 120 ✓ — always a good check. Note that this uses a claimed distribution rather than row and column totals, because there is only one variable here.'},
+
+{s:'Expected counts', n:'B9',
+ q:'A spinner has five equal sectors and is spun 100 times, giving counts 16, 25, 22, 18 and 19. What are the expected counts if the spinner is fair?',
+ o:['20 in each of the five sectors','16, 25, 22, 18 and 19',
+    '25 in each of the five sectors','100 divided among sectors in proportion to the counts'],
+ a:0,
+ x:'Equal sectors means an equal claimed proportion of 1/5, so E = 0.20 × 100 = <b>20</b> per sector — and 5 × 20 = 100 ✓. The option listing 16, 25, 22, 18 and 19 is the <em>observed</em> data — what you are testing, not what you are testing against. Deriving the expectations from the data itself would make the test vacuous.'},
+
+{s:'Expected counts', n:'B10',
+ q:'What are the conditions for a chi-square test on a table larger than 2 × 2?',
+ o:['The average expected count should be at least 5, and every individual expected count at least 1',
+    'Every observed count should be at least 5',
+    'Every expected count should be at least 10',
+    'The sample size should be at least 30'],
+ a:0,
+ x:'For larger tables the rule is relaxed: the <b>average</b> expected count at least 5, with all individual <b>expected</b> counts at least 1. (For a <b>2 × 2</b> table it is stricter — all four <em>expected</em> counts must be at least 5.) Two things to keep straight: the condition is about <b>expected</b> counts, not observed ones, and “n ≥ 30” is a rule of thumb for means, not for chi-square.'},
+
+{s:'Expected counts', n:'B11',
+ q:'In a chi-square test, which cell contributes most to the statistic when two cells are both off by the same amount?',
+ o:['The one with the smaller expected count, because each contribution is (O − E)² ÷ E',
+    'The one with the larger expected count',
+    'The one with the larger observed count',
+    'They contribute equally, since the gaps are the same'],
+ a:0,
+ x:'Each cell adds <b>(O − E)² ÷ E</b>, so dividing by E is what scales the miss to what was expected. A gap of 6 where you expected 10 is a 60% error and contributes 3.6; the same gap of 6 where you expected 60 contributes 0.6. Looking at which cell contributes most is the standard way of finding <em>where</em> an association actually lives.'},
+
+/* ---------------------------------------------- which test (6) */
+{s:'Which chi-square, and which test', n:'B12',
+ q:'A spinner with five equal sectors is spun 100 times and you want to know whether it is fair. Which test?',
+ o:['Chi-square goodness-of-fit test','Chi-square test of independence',
+    'Chi-square test comparing several populations','A one-proportion z-test'],
+ a:0,
+ x:'There is <b>one</b> variable (which sector came up) and an external claim to test it against (1/5 each). That is the <b>goodness-of-fit</b> test, with df = k − 1 = 4. The other two chi-squares need two categorical variables crossed in a grid, and a one-proportion z-test could only handle one sector at a time rather than all five together.'},
+
+{s:'Which chi-square, and which test', n:'B13',
+ q:'When testing statistical independence with a chi-square test, what does H₀ state?',
+ o:['The row and column variables are independent',
+    'The row and column variables are dependent',
+    'The row and column variables are equal',
+    'The observed counts equal the expected counts exactly'],
+ a:0,
+ x:'H₀ is always the hypothesis of <b>no relationship</b>: the row and column variables are <b>independent</b>. Two distractors to disarm: “dependent” is H₁, not H₀; and “equal” is meaningless here, since the two variables measure different things. H₀ does not claim the counts match exactly either — it claims they match <em>apart from sampling variability</em>.'},
+
+{s:'Which chi-square, and which test', n:'B14',
+ q:'A department head compares course evaluations across four tutorial groups, asking whether the pattern of ratings is similar in each. What is H₀?',
+ o:['The distribution of ratings is homogeneous across the four groups',
+    'Student opinions depend on which group they were in',
+    'Teaching quality does not influence student satisfaction',
+    'All four groups have the same number of students'],
+ a:0,
+ x:'Comparing the <em>same</em> outcome across several pre-set groups is a test of <b>homogeneity</b>, and H₀ says the distribution of ratings is the same in each group. “Student opinions depend on which group they were in” is H₁, not H₀. “Teaching quality does not influence satisfaction” is a causal claim the test cannot make. And equal group sizes are irrelevant — that is exactly why you compare percentages rather than counts.'},
+
+{s:'Which chi-square, and which test', n:'B15',
+ q:'Students are classified by study time and by final grade — one sample, two variables recorded on each student. A test of no association here is really a model of:',
+ o:['independence','comparing several populations','goodness of fit','neither of these'],
+ a:0,
+ x:'One sample, two variables measured on everybody → a model of <b>independence</b>. Contrast with the tutorial-group question: there the groups were fixed in advance and one variable was measured in each, which is a model of <b>comparing several populations</b> (homogeneity). The arithmetic is identical — the distinction is about how the data were collected, and exams do test it.'},
+
+{s:'Which chi-square, and which test', n:'B16',
+ q:'In a trial, 100 patients get a drug and 100 get a placebo; each is recorded as reporting a headache or not. Which tests could be used for H₀: p₁ = p₂ against Hₐ: p₁ ≠ p₂?',
+ o:['A two-proportion z-test or a chi-square test',
+    'A t-test or an F-test','A chi-square test or an F-test','A t-test or a chi-square test'],
+ a:0,
+ x:'The outcome is categorical with two levels in two groups, so both the <b>two-proportion z-test</b> and the <b>chi-square test of independence</b> apply — and on a 2 × 2 table they always agree. t-tests and F-tests compare <em>means</em> of quantitative outcomes, which is not what “reported a headache or not” gives you.'},
+
+{s:'Which chi-square, and which test', n:'B17',
+ q:'On a 2 × 2 table of headache / no headache in a drug group and a placebo group, how do the p-values of the two-proportion z-test and the chi-square test compare?',
+ o:['They are identical — for a two-sided test on a 2 × 2 table, χ² = z²',
+    'The z-test p-value is smaller','The chi-square p-value is smaller',
+    'They cannot be compared, since the tests answer different questions'],
+ a:0,
+ x:'On a 2 × 2 table the two procedures are algebraically the same test: <b>χ² = z²</b>, so the p-values match exactly. If z = 2.40 then χ² = 5.76, and both give p = .016. Worth knowing why you would still pick one: the z-test can be one-sided and gives you a confidence interval for the difference; chi-square is always two-sided but extends to bigger tables.'},
+
+/* ---------------------------------------------- statistic, df and decision (7) */
+{s:'The statistic, df and the decision', n:'B18',
+ q:'For the rating × tutorial-group table (3 rows × 4 columns), what is df and the critical value at α = .05?',
+ o:['df = 6, critical value 12.592','df = 12, critical value 21.026',
+    'df = 8, critical value 15.507','df = 5, critical value 11.070'],
+ a:0,
+ x:'df = (3 − 1)(4 − 1) = <b>6</b>, and the α = .05 entry on the df = 6 row is <b>12.592</b>. The temptation is to use 3 × 4 = 12 cells as df, which would send you to a critical value of 21.026 and could turn a significant result into a non-significant one.'},
+
+{s:'The statistic, df and the decision', n:'B19',
+ q:'The rating × tutorial-group table (3 × 4, N = 160) gives χ² = 17.018 with df = 6. What do you conclude at α = .05?',
+ o:['Reject H₀ — 17.018 exceeds 12.592, so ratings are not distributed the same way across the four groups',
+    'Fail to reject H₀ — 17.018 is below 21.026',
+    'Reject H₀, and conclude that the instructors caused the difference',
+    'Nothing, because the groups are different sizes'],
+ a:0,
+ x:'17.018 &gt; 12.592, so H₀ is <b>rejected</b> (p = .009): the rating patterns really do differ across groups. What the test cannot tell you is <em>why</em> — instructor quality, timetable slot and who chose which group are all live explanations. Unequal group sizes are no obstacle at all; the expected counts handle them automatically.'},
+
+{s:'The statistic, df and the decision', n:'B20',
+ q:'The spinner data (16, 25, 22, 18, 19 against 20 expected in each sector) gives χ² = 2.50 with df = 4. Is there evidence the spinner is unfair at α = .05?',
+ o:['No — 2.50 is far below the critical value of 9.488, so there is no evidence of unfairness',
+    'Yes — the counts are clearly uneven',
+    'Yes — 2.50 is greater than zero',
+    'It cannot be decided without more spins'],
+ a:0,
+ x:'χ² = (16 + 25 + 4 + 4 + 1) ÷ 20 = 50 ÷ 20 = <b>2.50</b>, well under 9.488 (p = .64). So the unevenness is exactly what chance produces — <b>fail to reject H₀</b>. Note the careful wording: this is no <em>evidence</em> of unfairness, not proof of fairness. And any χ² above zero is normal; perfectly equal counts would be suspicious.'},
+
+{s:'The statistic, df and the decision', n:'B21',
+ q:'What would χ² = 0 mean?',
+ o:['Every observed count equals its expected count — the data match H₀ perfectly',
+    'The test has failed and cannot be interpreted',
+    'There is a perfect relationship between the two variables',
+    'The expected counts were too small to use'],
+ a:0,
+ x:'Every term (O − E)² ÷ E is zero, so <b>observed equals expected everywhere</b> — the friendliest possible result for H₀. Chi-square can never be negative and there is no lower critical value to fall below, so a small χ² is simply <em>no evidence against</em> H₀ — it is never a reason to reject. A perfect <em>relationship</em> would give a very large χ², not zero.'},
+
+{s:'The statistic, df and the decision', n:'B22',
+ q:'Two clinics are compared: 18 of 180 patients dropped out at the North clinic and 15 of 300 at the South. A chi-square test gives χ² = 4.393, p = .036. What is the correct conclusion?',
+ o:['North had the significantly greater dropout rate — 10.0% against 5.0%',
+    'South had the greater dropout rate',
+    'Any difference can be explained by sampling variability',
+    'The clinics caused the difference in dropout'],
+ a:0,
+ x:'Convert to rates before judging: North 18 ÷ 180 = <b>10.0%</b>, South 15 ÷ 300 = <b>5.0%</b>. North is double. Since p = .036 &lt; .05 the difference is significant, so “sampling variability” is ruled out. The raw counts mislead here — South recorded fewer dropouts in total (15 against 18) even though it was by far the larger clinic, which is exactly why its <em>rate</em> comes out at half North’s.'},
+
+{s:'The statistic, df and the decision', n:'B23',
+ q:'What are the two equivalent ways of deciding about H₀ from a chi-square output?',
+ o:['Compare χ² with the critical value, or compare p with α',
+    'Compare χ² with α, or compare p with the critical value',
+    'Compare the observed counts with the expected counts, or check the sample size',
+    'Look at the clustered bar chart, or look at the row percentages'],
+ a:0,
+ x:'Two routes, one verdict. Either <b>statistic against critical value</b> (reject if χ² exceeds it) or <b>p against α</b> (reject if p ≤ α). They always agree, because the critical value is defined as the χ² whose right-tail area is exactly α. Comparing χ² to .05 — mixing the two scales — is the classic slip.'},
+
+{s:'The statistic, df and the decision', n:'B24',
+ q:'χ² = 13.50. In which situation is it significant at α = .05?',
+ o:['In a 2 × 4 table (df = 3, critical 7.815) but not in a 3 × 5 table (df = 8, critical 15.507)',
+    'In both, since 13.50 is a large value',
+    'In neither, since the critical value is always 3.841',
+    'In the 3 × 5 table but not the 2 × 4'],
+ a:0,
+ x:'This is precisely what degrees of freedom are for. On the df = 3 row the α = .05 value is <b>7.815</b>, and 13.50 clears it. On the df = 8 row it is <b>15.507</b>, and 13.50 falls short. <b>Same statistic, opposite verdict, purely because of the size of the table</b> — bigger tables have more cells to accumulate random noise, so they demand a bigger χ².'},
+
+/* ---------------------------------------------- goodness of fit & reporting (6) */
+{s:'Goodness of fit &amp; reporting', n:'B25',
+ q:'A die with six faces is rolled 60 times. What is df for the goodness-of-fit test?',
+ o:['5','6','59','1'],
+ a:0,
+ x:'For goodness of fit, <b>df = k − 1</b> where k is the number of categories: 6 − 1 = <b>5</b>. The sample size plays no part — 60 rolls or 6,000, df stays 5, so the 59 on offer (n − 1) is the wrong rule entirely. (The rows-times-columns rule belongs to the test of independence, and applying it here is the commonest confusion between the two chi-squares.)'},
+
+{s:'Goodness of fit &amp; reporting', n:'B26',
+ q:'A goodness-of-fit test on eight categories comes out significant. What have you learned?',
+ o:['At least one of the claimed proportions is wrong — but not which one',
+    'All eight claimed proportions are wrong',
+    'The category with the largest count is the wrong one',
+    'The sample was too small'],
+ a:0,
+ x:'Hₐ for a goodness-of-fit test is deliberately weak: <b>at least one</b> proportion differs from the claim. A significant result condemns the distribution as a whole and says nothing about which category is at fault. Finding the culprit takes further work — and the natural first step is to look at which cell contributed most to χ².'},
+
+{s:'Goodness of fit &amp; reporting', n:'B27',
+ q:'How is a chi-square result written in APA style?',
+ o:['χ²(6, N = 160) = 17.02, p = .009','χ²(160) = 17.02, p = .009',
+    'χ² = 17.02(6), p &lt; .05, N = 160','X²(6) = 17.018, p = 0.009'],
+ a:0,
+ x:'The pattern is <b>χ²(df, N = sample size) = statistic, p = value</b>. Details that carry marks: df comes first and N second inside the brackets; the statistic goes to two decimals; the p-value has no leading zero; and the symbol is the Greek χ, not a capital X.'},
+
+{s:'Goodness of fit &amp; reporting', n:'B28',
+ q:'Which conclusion goes beyond what a significant chi-square test can support?',
+ o:['“Being in group G3 caused students to rate the course negatively.”',
+    '“Ratings and tutorial group are associated.”',
+    '“The distribution of ratings differs across the four groups.”',
+    '“Group G3 gave more negative ratings than expected under H₀.”'],
+ a:0,
+ x:'Chi-square establishes <b>association</b>, never causation — and students were not randomly assigned to tutorial groups, so who chose which group is itself a likely explanation. The other three statements all stay within the evidence: they describe the association, the difference in distributions, and where the departure from expectation sits.'},
+
+{s:'Goodness of fit &amp; reporting', n:'B29',
+ q:'A clustered bar chart shows the percentage giving each rating, group by group, and the test gives p &lt; .05. What does the chart add that the test does not?',
+ o:['It shows the direction and size of the differences — which groups were more positive and by how much',
+    'It proves the result is significant',
+    'It removes the need to check the expected counts',
+    'It makes the chi-square statistic larger'],
+ a:0,
+ x:'A p-value answers one question: is the pattern hard to explain by chance? It says nothing about <b>which groups differ, in which direction, or by how much</b> — and that is the substance of the finding. The chart carries that information. This is why journals print both, and why a result reported as a bare p-value is incomplete.'},
+
+{s:'Goodness of fit &amp; reporting', n:'B30',
+ q:'A chi-square test on a 2 × 2 table gives χ² = 5.76. What is the equivalent z-statistic?',
+ o:['2.40','5.76','33.18','1.96'],
+ a:0,
+ x:'On a 2 × 2 table, χ² = z², so z = √5.76 = <b>2.40</b>.<br>Check it: |z| = 2.40 gives a two-sided p of .016, and χ² = 5.76 with df = 1 gives p = .016 too — the same test in two notations. (1.96 is the <em>critical</em> z at α = .05, whose square is 3.841, the familiar df = 1 critical value.)'}
+
+];
+/* ===========================================================================
+   TEST C — Practical Assignment 3: "Who is going to become a bully?"
+   Laeheem et al. (2008), Pattani primary schools, southern Thailand.
+   Design, risk factors, cross-tables, the chi-square principle, hypothesis
+   testing and goodness of fit. 30 items.
+   Running sample: 120 children. Had bullied 44, Not bullied 76.
+     Gender    boys  62: 30 bullied / 32 not   girls 58: 14 / 44
+     Location  urban 70: 30 bullied / 40 not   rural 50: 14 / 36
+     Age ≤ 8 subgroup  n = 45: 21 bullied / 24 not
+     Witnessed abuse   n = 36: 21 bullied / 15 not
+   =========================================================================== */
+var TESTC = [
+
+/* ---------------------------------------------- design & measurement (7) */
+{s:'Design &amp; measurement', n:'C1',
+ q:'Researchers record, for 120 primary-school children in southern Thailand, whether each child has bullied others, along with location, gender, age and family background. Nothing is assigned. Is the design experimental or correlational?',
+ o:['Correlational — every variable is observed as it already is',
+    'Experimental — children are compared across several groups',
+    'Experimental — because there is a clear outcome variable',
+    'Correlational — because bullying cannot be measured objectively'],
+ a:0,
+ x:'Nobody assigned a child to a gender, a village, or a family — these are all pre-existing characteristics that the researchers simply recorded. That makes the study <b>correlational</b>. Comparing several groups does not make a design experimental; what would is the researcher <em>imposing</em> a condition, ideally at random, which is neither possible nor ethical here.'},
+
+{s:'Design &amp; measurement', n:'C2',
+ q:'“Had bullied others / Had not bullied others” — what is the measurement level of this variable?',
+ o:['Nominal — two unordered categories','Ordinal — bullying is worse than not bullying',
+    'Interval — it is coded 0 and 1','Ratio — 1 is twice 0'],
+ a:0,
+ x:'<b>Nominal.</b> Two categories with no quantitative order: the coding 0/1 is a label, not a measurement. It matters practically — nominal outcomes are <em>counted</em>, which is what puts this whole study in chi-square territory rather than t-test territory. (Calling it ordinal because one state seems “worse” confuses a value judgement with a measurement scale.)'},
+
+{s:'Design &amp; measurement', n:'C3',
+ q:'The study records each child’s age group as <b>8 or under / 9 to 10 / 11 or over</b>. What is the measurement level of the variable as recorded?',
+ o:['Ordinal — ordered categories, with unequal and undefined widths',
+    'Nominal — three separate labels',
+    'Ratio — age has a true zero',
+    'Interval — the three groups are equally spaced'],
+ a:0,
+ x:'<b>Ordinal.</b> Age itself is a ratio variable, but it has been <em>banded</em> into ordered categories, and the analysis can only use what was recorded. The bands are not equally wide, so it is not interval. The general principle is worth holding on to: <b>recoding always loses information and can lower the measurement level</b>, never raise it.'},
+
+{s:'Design &amp; measurement', n:'C4',
+ q:'In the research question “are boys more likely to bully than girls?”, which is the dependent variable?',
+ o:['Whether the child had bullied others','Gender','The school','The child’s age'],
+ a:0,
+ x:'The dependent (response) variable is the outcome you expect to differ: <b>whether the child had bullied</b>. Gender is the independent (explanatory) variable — the grouping you compare across. Test it with the sentence “does <u>gender</u> affect <u>bullying</u>?”: whatever lands second is the dependent variable.'},
+
+{s:'Design &amp; measurement', n:'C5',
+ q:'Are the variables measured between-subjects or within-subjects?',
+ o:['Between-subjects — each child contributes one value, and different children are compared',
+    'Within-subjects — several variables are measured on each child',
+    'Within-subjects — because the same questionnaire was used throughout',
+    'Neither, because the design is correlational'],
+ a:0,
+ x:'<b>Between-subjects.</b> Every comparison in the study is between <em>different children</em> — boys against girls, urban against rural. Recording six variables on one child does not make it within-subjects; that would require measuring the <em>same</em> variable on the same child twice, such as bullying before and after an intervention.'},
+
+{s:'Design &amp; measurement', n:'C6',
+ q:'Suppose children who witnessed abuse between their parents bully more often. Which causality condition fails most clearly?',
+ o:['Elimination of alternative explanations — poverty, stress and neighbourhood could produce both',
+    'Covariation — the two do not actually go together',
+    'Temporal order — the bullying was recorded before the abuse',
+    'None fail, so witnessing abuse causes bullying'],
+ a:0,
+ x:'<b>Covariation</b> is demonstrated by the test, and <em>temporal order</em> is at least plausible, since parental conflict typically precedes a child’s school behaviour. What fails is the third condition: nothing has been controlled, so household stress, poverty or neighbourhood violence could generate both the abuse and the bullying. One clean failure blocks the causal claim.'},
+
+{s:'Design &amp; measurement', n:'C7',
+ q:'Why is it worth knowing which groups contain more bullies than others, if the study cannot establish causation?',
+ o:['Risk factors identify where to target prevention, even when the mechanism is unknown',
+    'Because association and causation mean the same thing in applied research',
+    'Because it allows the researchers to predict which individual child will bully',
+    'It is not worth knowing, since nothing causal follows'],
+ a:0,
+ x:'This is what <b>risk-factor</b> research is for. Knowing that bullying clusters in a particular age band or family situation tells a school <em>where</em> to put a limited prevention budget — without anyone needing to prove a mechanism first. Two limits to keep in view: it never licenses a causal claim, and it never predicts an individual child, only a group rate.'},
+
+/* ---------------------------------------------- choosing the test (4) */
+{s:'Choosing the test', n:'C8',
+ q:'To test whether each background variable (location, gender, age band, family situation) is a risk factor for bullying, which test do you run for each one?',
+ o:['A chi-square test of independence, crossing that variable with the bullying variable',
+    'A goodness-of-fit test on the bullying variable',
+    'An independent-samples t-test',
+    'A Pearson correlation between the two variables'],
+ a:0,
+ x:'Each question crosses <b>two categorical variables</b> — the risk factor and the bullying outcome — in a grid of counts. That is the <b>test of independence</b>, run once per risk factor. A t-test needs a quantitative outcome; a correlation needs two quantitative variables; goodness of fit uses one variable against a claimed distribution, which is a different question.'},
+
+{s:'Choosing the test', n:'C9',
+ q:'A theory claims about one third of all children become bullies. You want to check whether the children aged 8 or under in your sample agree with that figure. Which test?',
+ o:['A chi-square goodness-of-fit test','A chi-square test of independence',
+    'A two-proportion z-test','A Pearson correlation'],
+ a:0,
+ x:'One variable (bullied / not bullied), within one subgroup, compared against an <b>externally claimed distribution</b> of 1/3 and 2/3. That is the signature of <b>goodness of fit</b>, with df = k − 1 = 1. There is no second variable here to cross it against, which is what rules out the test of independence.'},
+
+{s:'Choosing the test', n:'C10',
+ q:'In a cross-table of gender by bullying, which percentages should you compare?',
+ o:['Row percentages within each gender — what proportion of boys bullied, and what proportion of girls',
+    'The raw counts of boys and girls who bullied',
+    'Each cell divided by the grand total of 120',
+    'The column totals for bullied and not bullied'],
+ a:0,
+ x:'The two groups are different sizes (62 boys, 58 girls), so raw counts cannot be compared. Divide each count by <b>its own row total</b>: 30 ÷ 62 = <b>48.4%</b> of boys against 14 ÷ 58 = <b>24.1%</b> of girls. Dividing by 120 gives joint proportions, which answer a different question; column totals ignore gender entirely.'},
+
+{s:'Choosing the test', n:'C11',
+ q:'The assignment warns you to check carefully whether a published table shows row or column percentages. Why does it matter so much?',
+ o:['They answer different questions, and reading one as the other reverses the conditioning',
+    'Column percentages are always wrong in this type of table',
+    'Row percentages always add to 100% and column percentages do not',
+    'It only affects the layout, not the interpretation'],
+ a:0,
+ x:'“<em>Of the boys, 48% bullied</em>” and “<em>of the bullies, 68% were boys</em>” are both true of the same table and mean completely different things. Reading one as the other is the conditioning error that produces most misreported statistics. <b>Both</b> sets of percentages sum to 100% — along their own dimension — so that offers no clue; only the labelling tells you which you have.'},
+
+/* ---------------------------------------------- expected counts (5) */
+{s:'Expected counts &amp; the principle', n:'C12',
+ q:'In the sample of 120 children, 44 had bullied and 62 were boys. If H₀ were true, what is the expected count of <b>boys who had bullied</b>?',
+ o:['22.73','30.00','22.00','27.29'],
+ a:0,
+ x:'E = row total × column total ÷ grand total = 62 × 44 ÷ 120 = 2728 ÷ 120 = <b>22.73</b>.<br>What it means: 44/120 = 36.7% of all children bullied, so if gender made no difference, 36.7% of the 62 boys — about 22.7 — would have done. The observed count is 30, well above it. (30.00 is the observed value; the expected one is what the observed is tested <em>against</em>.)'},
+
+{s:'Expected counts &amp; the principle', n:'C13',
+ q:'For the gender × bullying table — boys 30 bullied / 32 not, girls 14 / 44, N = 120 — what are the four expected counts?',
+ o:['Boys 22.73 / 39.27, girls 21.27 / 36.73',
+    'Boys 30 / 32, girls 14 / 44',
+    'Boys 22 / 40, girls 22 / 36',
+    'Boys 31 / 31, girls 29 / 29'],
+ a:0,
+ x:'62 × 44 ÷ 120 = <b>22.73</b> · 62 × 76 ÷ 120 = <b>39.27</b> · 58 × 44 ÷ 120 = <b>21.27</b> · 58 × 76 ÷ 120 = <b>36.73</b>.<br>Run the check: the rows add to 62 and 58, the columns to 44 and 76 — <b>the expected table always reproduces the observed margins</b>, which is a free way of catching an arithmetic slip. Watch for the option listing 30 / 32 / 14 / 44 — that is simply the observed data.'},
+
+{s:'Expected counts &amp; the principle', n:'C14',
+ q:'Which statement best explains the principle behind the chi-square test?',
+ o:['It measures how far the observed counts sit from the counts H₀ predicts, scaling each gap by what was expected there',
+    'It measures whether the observed counts are large enough to analyse',
+    'It compares the observed counts in one group with the observed counts in the other',
+    'It tests whether the two variables have the same mean'],
+ a:0,
+ x:'Build an <b>expected</b> table — the world H₀ describes — then measure the distance from what actually happened, gap by gap, dividing each squared gap by its expected count so that a miss counts relative to the size of what was expected. Add those up and you get one number for “how far from H₀ is this table?”. Means play no part; these are categories, not quantities.'},
+
+{s:'Expected counts &amp; the principle', n:'C15',
+ q:'With observed 30 / 32 / 14 / 44 and expected 22.73 / 39.27 / 21.27 / 36.73, which cell contributes most to χ²?',
+ o:['Girls who had bullied — observed 14 against 21.27 expected, contributing 2.48',
+    'Boys who had bullied — observed 30 against 22.73 expected, contributing 2.32',
+    'Boys who had not bullied — contributing 1.34',
+    'All four contribute equally, since each is off by 7.27'],
+ a:0,
+ x:'Every cell is off by <b>7.27</b> (exactly 109 ÷ 15 = 7.2667), so the contributions differ only through the division by E:<br>boys bullied 52.80 ÷ 22.73 = <b>2.32</b> · boys not 52.80 ÷ 39.27 = <b>1.34</b><br>girls bullied 52.80 ÷ 21.27 = <b>2.48</b> · girls not 52.80 ÷ 36.73 = <b>1.44</b><br>Total χ² = <b>7.59</b>. The largest contribution comes from the <em>smallest</em> expected count — the shortfall in girls who bullied.'},
+
+{s:'Expected counts &amp; the principle', n:'C16',
+ q:'Are the conditions for a chi-square test met for this 2 × 2 gender table?',
+ o:['Yes — all four expected counts (22.73, 39.27, 21.27, 36.73) are above 5',
+    'No — the two groups are different sizes',
+    'No — the observed count of 14 is too small',
+    'It cannot be checked without knowing the population size'],
+ a:0,
+ x:'For a <b>2 × 2</b> table the rule is strict: all four <b>expected</b> counts at least 5. The smallest here is 21.27, so the test is comfortably valid. Two traps disarmed: the condition concerns expected counts, not the observed 14; and unequal group sizes are entirely normal — the expected counts absorb them automatically.'},
+
+/* ---------------------------------------------- hypothesis testing (7) */
+{s:'The hypothesis-testing procedure', n:'C17',
+ q:'Step 1. What are the hypotheses for “are boys and girls equally inclined to bully?”',
+ o:['H₀: there is no relation between gender and bullying in the population; H₁: there is a relation',
+    'H₀: boys bully more than girls; H₁: girls bully more than boys',
+    'H₀: the sample proportions of boys and girls who bullied are equal',
+    'H₀: χ² = 0; H₁: χ² &gt; 0'],
+ a:0,
+ x:'H₀ states <b>no relation</b>, in the <b>population</b>. Its equivalent second wording — <em>the percentages are the same in the two groups</em> — is the useful one, because you can check it by looking at a table of row percentages. Note that chi-square has no direction: H₁ is simply “there is a relation”, never “boys bully more”.'},
+
+{s:'The hypothesis-testing procedure', n:'C18',
+ q:'Step 2 and 3. Which test, and what is the critical value at a two-sided α = .05?',
+ o:['Chi-square test of independence, df = 1, critical value 3.841',
+    'Chi-square test of independence, df = 2, critical value 5.991',
+    'Chi-square goodness-of-fit test, df = 1, critical value 3.841',
+    'Two-proportion z-test, critical value 1.645'],
+ a:0,
+ x:'Two categorical variables in a 2 × 2 grid → <b>test of independence</b>, with df = (2 − 1)(2 − 1) = <b>1</b> and a critical value of <b>3.841</b>. Note the quiet subtlety: chi-square is tested in the <em>right tail only</em>, yet it corresponds to a <em>two-sided</em> test, because χ² squares the difference and so counts a departure in either direction.'},
+
+{s:'The hypothesis-testing procedure', n:'C19',
+ q:'Step 5. The test gives χ² = 7.588. What is your decision, using the critical value?',
+ o:['Reject H₀ — 7.588 exceeds 3.841',
+    'Fail to reject H₀ — 7.588 is below the critical value',
+    'Reject H₀ — because 48.4% is larger than 24.1%',
+    'Accept H₀ — the difference is due to chance'],
+ a:0,
+ x:'7.588 &gt; 3.841, so <b>reject H₀</b> (p = .006). Two things to be careful about. The decision rests on the <em>statistic</em>, not on eyeballing the percentages — a gap can look large and still be non-significant in a small sample. And we never “accept” H₀; the most we ever do is fail to reject it.'},
+
+{s:'The hypothesis-testing procedure', n:'C20',
+ q:'Step 5, the other route. SPSS reports Asymp. Sig. (2-sided) = .006. What does that tell you at α = .05?',
+ o:['Reject H₀ — p = .006 is below α = .05, which agrees with the critical-value route',
+    'Fail to reject H₀ — .006 is a very small number',
+    'Reject H₀ at α = .01 but not at α = .05',
+    'Nothing, because the p-value is not the critical value'],
+ a:0,
+ x:'p = .006 ≤ .05, so <b>reject H₀</b> — the same verdict the critical-value route gave, as it always must. Since .006 is also below .01, the result holds at the stricter 1% level too. The rule is mechanical: <b>small p, reject</b>. It is a comparison of p with α, never of p with 3.841.'},
+
+{s:'The hypothesis-testing procedure', n:'C21',
+ q:'Step 6. How is this written in APA style?',
+ o:['χ²(1, N = 120) = 7.59, p = .006',
+    'χ²(120) = 7.59, p = .006',
+    'χ² = 7.588(1), p &lt; .05, N = 120',
+    'X²(1, N = 120) = 7.59, p = 0.006'],
+ a:0,
+ x:'The pattern is <b>χ²(df, N = sample size) = statistic, p = value</b>: <b>χ²(1, N = 120) = 7.59, p = .006</b>. Details that carry marks — df first and N second in the brackets, the statistic to two decimals, no leading zero on p, and the Greek χ rather than a capital X.'},
+
+{s:'The hypothesis-testing procedure', n:'C22',
+ q:'Step 6, continued. The gender test gave χ²(1, N = 120) = 7.59, p = .006, with 48.4% of boys and 24.1% of girls having bullied. What is the conclusion in words?',
+ o:['Gender and bullying are significantly associated: 48.4% of boys had bullied others against 24.1% of girls',
+    'Being a boy causes a child to bully',
+    'All boys bully more than all girls',
+    'The result is significant, so the effect must be large'],
+ a:0,
+ x:'A complete conclusion names the <b>association</b>, the <b>direction</b> and the <b>size</b>, in context. Three things to avoid: a causal claim (this is observational data, and gender is entangled with how children are raised and how adults respond to them); a statement about individuals, when this is a group rate; and treating significance as a measure of magnitude.'},
+
+{s:'The hypothesis-testing procedure', n:'C22a',
+ q:'The assignment asks you to switch on “Display clustered bar charts” in the chi-square menu. What does that chart add to the test result?',
+ o:['It shows the direction and size of the difference — which group bullied more, and by how much',
+    'It proves the result is statistically significant',
+    'It replaces the need to check the expected counts',
+    'It makes the chi-square statistic easier to calculate'],
+ a:0,
+ x:'A p-value answers exactly one question: is this pattern hard to explain by chance? It says nothing about <b>which group is higher, in which direction, or by how much</b> — and that is the substance of the finding. The clustered bar chart carries that. One caution: have it plot <em>percentages</em> rather than counts, or the taller bar will simply be the larger group.'},
+
+{s:'The hypothesis-testing procedure', n:'C23',
+ q:'A second risk factor, location, gives χ² = 2.772, df = 1, p = .096 — with 42.9% of urban children and 28.0% of rural children having bullied. What do you conclude?',
+ o:['Fail to reject H₀ — there is not enough evidence that location is a risk factor, despite a 15-point gap in the sample',
+    'Reject H₀ — a 15-point gap is clearly meaningful',
+    'Accept H₀ — location has no effect on bullying',
+    'The test is invalid, because the two groups are different sizes'],
+ a:0,
+ x:'p = .096 &gt; .05, so <b>fail to reject H₀</b>. The instructive part is the contrast with gender: a gap of 14.9 points falls short while a gap of 24.3 points cleared the bar comfortably. Note the wording — “not enough evidence” is not the same as “no effect”, and with only 120 children a real but moderate difference could easily go undetected.'},
+
+/* ---------------------------------------------- goodness of fit (7) */
+{s:'Goodness of fit', n:'C24',
+ q:'A theory says about 1/3 of children become bullies. Among the 45 children aged 8 or under, what are the expected counts?',
+ o:['15 bullied and 30 not bullied','21 bullied and 24 not bullied',
+    '22.5 bullied and 22.5 not bullied','33.3 bullied and 66.7 not bullied'],
+ a:0,
+ x:'Expected = claimed proportion × n: (1/3) × 45 = <b>15</b> and (2/3) × 45 = <b>30</b>. They add to 45 ✓ — always check that. Two traps: 21 and 24 are the <em>observed</em> counts, and 33.3 / 66.7 are the percentages entered as if they were counts, which is exactly what the assignment warns you to watch for in SPSS.'},
+
+{s:'Goodness of fit', n:'C25',
+ q:'Those 45 children actually gave 21 bullied and 24 not bullied. What is χ²?',
+ o:['3.600','2.400','1.200','6.000'],
+ a:0,
+ x:'(21 − 15)² ÷ 15 = 36 ÷ 15 = <b>2.400</b><br>(24 − 30)² ÷ 30 = 36 ÷ 30 = <b>1.200</b><br>χ² = 2.400 + 1.200 = <b>3.600</b><br>Both cells are off by exactly 6, yet the first contributes twice as much — because you divide by the expected count, and 15 is half of 30. (2.400 and 1.200 are the individual terms, not the total.)'},
+
+{s:'Goodness of fit', n:'C26',
+ q:'With χ² = 3.600 and df = 1, what do you conclude at α = .05 about the younger children?',
+ o:['Fail to reject H₀ — 3.600 falls just short of 3.841, so the data are consistent with the 1/3 claim',
+    'Reject H₀ — 46.7% is clearly more than 33.3%',
+    'Reject H₀ — 3.600 is a large chi-square value',
+    'The test cannot be used, because one expected count is below 20'],
+ a:0,
+ x:'3.600 &lt; 3.841, so <b>fail to reject H₀</b> — p = .058, agonisingly close to .05. Report the exact p-value rather than a bare “not significant”: a single extra child in the bullied column would have flipped it. The honest reading is “suggestive but not established”, and the obvious next step is a larger sample.'},
+
+{s:'Goodness of fit', n:'C27',
+ q:'Among the 36 children who had witnessed abuse between their parents, 21 had bullied and 15 had not. Testing the same 1/3 claim, what are the expected counts and χ²?',
+ o:['Expected 12 and 24, χ² = 10.125','Expected 12 and 24, χ² = 6.750',
+    'Expected 18 and 18, χ² = 1.000','Expected 21 and 15, χ² = 0.000'],
+ a:0,
+ x:'Expected = (1/3)(36) = <b>12</b> and (2/3)(36) = <b>24</b>.<br>(21 − 12)² ÷ 12 = 81 ÷ 12 = <b>6.750</b><br>(15 − 24)² ÷ 24 = 81 ÷ 24 = <b>3.375</b><br>χ² = <b>10.125</b>, df = 1, p = .001 — reject H₀. (6.750 is only the first term. Expected counts of 18 and 18 would be a 50/50 claim, not 1/3 and 2/3.)'},
+
+{s:'Goodness of fit', n:'C28',
+ q:'What do the two goodness-of-fit results together tell you?',
+ o:['The younger children are consistent with the 1/3 theory, but children who witnessed abuse bully far more often than it predicts',
+    'Both groups match the theory well',
+    'Both groups depart significantly from the theory',
+    'The theory is proved wrong for all children'],
+ a:0,
+ x:'Two different verdicts from the same claim. Age 8 or under: 46.7% bullied, χ² = 3.60, <b>p = .058 — not significant</b>. Witnessed abuse: 58.3% bullied, χ² = 10.13, <b>p = .001 — significant</b>. So exposure to abuse marks out a group that departs sharply from the general rate, while the younger children do not — which is precisely the kind of finding that tells a school where to aim.'},
+
+{s:'Goodness of fit', n:'C29',
+ q:'What is df for a goodness-of-fit test on a variable with two categories?',
+ o:['1 — because df = k − 1, where k is the number of categories',
+    '2 — one for each category',
+    'n − 1, where n is the number of children in the group',
+    '0 — the test has no degrees of freedom'],
+ a:0,
+ x:'<b>df = k − 1 = 2 − 1 = 1</b>, and the sample size plays no part — n − 1 is the rule for a <em>t</em> test, not for chi-square. The intuition: once you know how many children bullied, the number who did not is forced by the total, so only one figure was ever free. (The rows-times-columns rule belongs to the test of independence, and mixing the two up is the commonest error between the two chi-squares.)'},
+
+{s:'Goodness of fit', n:'C30',
+ q:'What is the key difference between the two chi-square tests used in this assignment?',
+ o:['Independence crosses two variables and takes its expected counts from the margins; goodness of fit uses one variable and takes them from a claimed distribution',
+    'They use different formulas for the statistic',
+    'Goodness of fit is one-sided and independence is two-sided',
+    'Independence needs a larger sample'],
+ a:0,
+ x:'The statistic is <b>identical</b> — Σ(O − E)² ÷ E — and both are read in the right tail. What differs is where E comes from (<b>row × column ÷ total</b> against <b>claimed proportion × n</b>) and the df rule (<b>(r − 1)(c − 1)</b> against <b>k − 1</b>). Count the variables and you will never pick the wrong one: two in a grid, or one against a claim.'}
+
+];
+
+(function(){
+'use strict';
+
+/* ================================================================ the three tests */
+var TESTS = [
+  {id:'A', n:'Test A', t:'Correlation in practice',
+   sub:'Test A · Worked Example 4 · let’s go outside!',
+   items:TESTA,
+   intro:'Thirty questions on <b>Worked Example 4</b>: the study of 100 children, hours played outdoors, and six measures of '
+       + 'physical and psychological development. It runs from research design and measurement level through scatterplots, '
+       + 'z-scores and the four quadrants, Pearson’s r and its significance test, r² as variance explained, and finally what '
+       + 'linear transformations and a single outlier do to a correlation. '
+       + '<b>Every number you need is inside the question</b>, so there is nothing to look up.',
+   src:'Built from Worked Example 4 (Van den Berg, 2007 — greenery, outdoor play and children’s development).',
+   dsTitle:'The correlations these questions use',
+   ds:'<p>One hundred children. Hours played outdoors per week, against six questionnaire variables each scored 1–100. '
+     + 'Every question that needs a number uses this table.</p>'
+     + '<div class="dsg">'
+     + '<table><tr><th>Hours &amp; …</th><th>r</th><th>r²</th><th>p</th></tr>'
+     + '<tr><td>Cognition</td><td>+0.42</td><td>17.6%</td><td>&lt; .001</td></tr>'
+     + '<tr><td>Motor skills</td><td>+0.55</td><td>30.3%</td><td>&lt; .001</td></tr>'
+     + '<tr><td>Social</td><td>+0.36</td><td>13.0%</td><td>&lt; .001</td></tr>'
+     + '<tr><td>Overweight</td><td>−0.31</td><td>9.6%</td><td>.002</td></tr>'
+     + '<tr><td>Activity</td><td>+0.61</td><td>37.2%</td><td>&lt; .001</td></tr>'
+     + '<tr><td>Stress</td><td>−0.24</td><td>5.8%</td><td>.016</td></tr><tr><td><i>Motor &amp; Overweight</i></td><td>−0.29</td><td>8.4%</td><td>.003</td></tr></table>'
+     + '<table><tr><th>Hours variable</th><th>value</th></tr>'
+     + '<tr><td>mean</td><td>8.5</td></tr><tr><td>standard deviation</td><td>3.2</td></tr>'
+     + '<tr><td>lowest value</td><td>1</td></tr><tr><td>n</td><td>100</td></tr></table>'
+     + '</div>'
+     + '<p>The assignment’s own strength bands: <b>weak ≤ 0.10, medium ≈ 0.30, strong ≥ 0.50</b>. '
+     + 'For a correlation, <b>df = n − 2 = 98</b>.</p>'},
+
+  {id:'B', n:'Test B', t:'The chi-square family',
+   sub:'Test B · Homework Assignment 3 · chi-square',
+   items:TESTB,
+   intro:'Thirty questions on <b>Homework Assignment 3</b>: everything chi-square. Reading a two-way table and getting its size '
+       + 'and degrees of freedom right, computing expected counts, telling independence from homogeneity from goodness of fit, '
+       + 'the equivalence of the z-test and chi-square on a 2 × 2 table, the decision rule, and APA reporting. '
+       + '<b>Same question types as the 16 homework items, all-new tables</b> — so the answer key you already have will not help you.',
+   src:'Built from the 16 multiple-choice items in Homework Assignment 3. Every figure recomputed from scratch.',
+   dsTitle:'The four tables these questions use',
+   ds:'<div class="dsg">'
+     + '<table><tr><th>T1 · study × grade</th><th>A</th><th>B</th><th>C</th><th>D</th><th>F</th><th>tot</th></tr>'
+     + '<tr><td>under 4 h</td><td>3</td><td>4</td><td>8</td><td>5</td><td>6</td><td>26</td></tr>'
+     + '<tr><td>4–8 h</td><td>5</td><td>7</td><td>6</td><td>4</td><td>5</td><td>27</td></tr>'
+     + '<tr><td>over 8 h</td><td>8</td><td>6</td><td>4</td><td>3</td><td>1</td><td>22</td></tr>'
+     + '<tr><td><b>total</b></td><td><b>16</b></td><td><b>17</b></td><td><b>18</b></td><td><b>12</b></td><td><b>12</b></td><td><b>75</b></td></tr></table>'
+     + '<table><tr><th>T2 · rating × group</th><th>G1</th><th>G2</th><th>G3</th><th>G4</th><th>tot</th></tr>'
+     + '<tr><td>Positive</td><td>21</td><td>26</td><td>11</td><td>14</td><td>72</td></tr>'
+     + '<tr><td>Neutral</td><td>9</td><td>6</td><td>8</td><td>12</td><td>35</td></tr>'
+     + '<tr><td>Negative</td><td>10</td><td>7</td><td>19</td><td>17</td><td>53</td></tr>'
+     + '<tr><td><b>total</b></td><td><b>40</b></td><td><b>39</b></td><td><b>38</b></td><td><b>43</b></td><td><b>160</b></td></tr></table>'
+     + '</div><div class="dsg">'
+     + '<table><tr><th>T3 · clinic</th><th>dropout</th><th>completer</th><th>tot</th></tr>'
+     + '<tr><td>North</td><td>18</td><td>162</td><td>180</td></tr>'
+     + '<tr><td>South</td><td>15</td><td>285</td><td>300</td></tr></table>'
+     + '<table><tr><th>T4 · spinner, 100 spins</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>'
+     + '<tr><td>observed</td><td>16</td><td>25</td><td>22</td><td>18</td><td>19</td></tr></table>'
+     + '</div>'
+     + '<p>Critical values of χ² at α = .05, by df: '
+     + '<b>1 → 3.841 · 2 → 5.991 · 3 → 7.815 · 4 → 9.488 · 5 → 11.070 · 6 → 12.592 · 8 → 15.507</b>.<br>'
+     + 'df is <b>(r − 1)(c − 1)</b> for independence and <b>k − 1</b> for goodness of fit.</p>'},
+
+  {id:'C', n:'Test C', t:'The bullying study',
+   sub:'Test C · Practical Assignment 3 · who is going to become a bully?',
+   items:TESTC,
+   intro:'Thirty questions on <b>Practical Assignment 3</b>: the sample of 120 primary-school children in southern Thailand. '
+       + 'Design and measurement, choosing the right test for each risk factor, reading row against column percentages, '
+       + 'expected counts and the principle behind chi-square, the full six-step hypothesis-testing procedure with APA notation, '
+       + 'and two goodness-of-fit tests against the one-third theory. '
+       + '<b>All the counts are in the panel below and repeated inside each question.</b>',
+   src:'Built from Practical Assignment 3 (Laeheem et al., 2008 — bullying in Pattani primary schools). The sample of 120 below is a simulated draw with the structure the assignment describes.',
+   dsTitle:'The sample of 120 children these questions use',
+   ds:'<p><b>120 children.</b> 44 had bullied others, 76 had not.</p>'
+     + '<div class="dsg">'
+     + '<table><tr><th>Gender</th><th>had bullied</th><th>not bullied</th><th>tot</th></tr>'
+     + '<tr><td>Boys</td><td>30</td><td>32</td><td>62</td></tr>'
+     + '<tr><td>Girls</td><td>14</td><td>44</td><td>58</td></tr>'
+     + '<tr><td><b>total</b></td><td><b>44</b></td><td><b>76</b></td><td><b>120</b></td></tr></table>'
+     + '<table><tr><th>Location</th><th>had bullied</th><th>not bullied</th><th>tot</th></tr>'
+     + '<tr><td>Urban</td><td>30</td><td>40</td><td>70</td></tr>'
+     + '<tr><td>Rural</td><td>14</td><td>36</td><td>50</td></tr>'
+     + '<tr><td><b>total</b></td><td><b>44</b></td><td><b>76</b></td><td><b>120</b></td></tr></table>'
+     + '</div><div class="dsg">'
+     + '<table><tr><th>Subgroup</th><th>had bullied</th><th>not bullied</th><th>tot</th></tr>'
+     + '<tr><td>Aged 8 or under</td><td>21</td><td>24</td><td>45</td></tr>'
+     + '<tr><td>Witnessed abuse</td><td>21</td><td>15</td><td>36</td></tr></table>'
+     + '</div>'
+     + '<p>Row percentages who had bullied: boys <b>48.4%</b>, girls <b>24.1%</b>; urban <b>42.9%</b>, rural <b>28.0%</b>; '
+     + 'aged 8 or under <b>46.7%</b>, witnessed abuse <b>58.3%</b>.<br>'
+     + 'Test results: gender <b>χ²(1) = 7.59, p = .006</b>; location <b>χ²(1) = 2.77, p = .096</b>. '
+     + 'Critical value at df = 1, α = .05 is <b>3.841</b>.</p>'}
+];
+
+/* labels are assigned at render time, so inserting an item never leaves a gap */
+TESTS.forEach(function(T){ T.items.forEach(function(m, i){ m.n = T.id + (i + 1); }); });
+
+var LET = ['A','B','C','D'];
+var cur = 0;
+var state = TESTS.map(function(T){
+  return {answered:{}, correct:{}, onlyWrong:false, revealAll:false};
+});
+
+var list = document.getElementById('list');
+var done = document.getElementById('done');
+
+/* ---------------------------------------------------------------- tabs */
+(function(){
+  var host = document.getElementById('tabs');
+  TESTS.forEach(function(T, i){
+    var b = document.createElement('button');
+    b.className = 'tab';
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-selected', String(i===0));
+    b.innerHTML = '<span class="tn">' + T.n + '</span><span class="tt">' + T.t + '</span>'
+                + '<span class="tc" id="tabsc' + i + '">0 / ' + T.items.length + '</span>';
+    b.addEventListener('click', function(){ pick(i); });
+    host.appendChild(b);
+  });
+})();
+
+function pick(i){
+  cur = i;
+  [].forEach.call(document.querySelectorAll('.tab'), function(b, k){
+    b.setAttribute('aria-selected', String(k===i));
+  });
+  var T = TESTS[i];
+  document.getElementById('hsub').textContent  = T.sub.replace(/<[^>]+>/g,'');
+  document.getElementById('intro').innerHTML   = T.intro;
+  document.getElementById('src').textContent   = T.src;
+  document.getElementById('dsTitle').textContent = T.dsTitle;
+  document.getElementById('dsBody').innerHTML  = T.ds;
+  draw(); board();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+/* ---------------------------------------------------------------- scoring */
+function stats(){
+  var T = TESTS[cur], S = state[cur];
+  var a = Object.keys(S.answered).length, c = 0;
+  Object.keys(S.correct).forEach(function(k){ if (S.correct[k]) c++; });
+  return {answered:a, correct:c, total:T.items.length};
+}
+
+function grade(pct){
+  if (pct >= 90) return 'That is a <b>9 or 10</b> — straight A territory.';
+  if (pct >= 80) return 'That is around an <b>8</b>. Close. The misses below are the gap.';
+  if (pct >= 70) return 'That is around a <b>7</b>. Solid pass, not yet an A.';
+  if (pct >= 55) return 'That is around a <b>6</b> — a pass, with real gaps.';
+  return 'Below a pass. Read every explanation below before trying again.';
+}
+
+function board(){
+  var T = TESTS[cur], S = state[cur], s = stats();
+  document.getElementById('sc').textContent  = s.correct + ' / ' + s.answered;
+  document.getElementById('rem').textContent = s.total - s.answered;
+  document.getElementById('bar').style.width = Math.round(100 * s.answered / s.total) + '%';
+  document.getElementById('barlab').textContent =
+    s.answered === 0 ? 'Nothing answered yet'
+      : s.answered + ' of ' + s.total + ' answered · ' +
+        Math.round(100 * s.correct / s.answered) + '% right so far';
+  document.getElementById('btnWrong').classList.toggle('on', S.onlyWrong);
+  document.getElementById('btnReveal').classList.toggle('on', S.revealAll);
+  document.getElementById('btnReveal').textContent =
+    S.revealAll ? 'Hide all answers' : 'Reveal all answers';
+
+  var tc = document.getElementById('tabsc' + cur);
+  if (tc) tc.textContent = s.correct + ' / ' + s.total;
+
+  if (s.answered === s.total) {
+    var per = {}, order = [];
+    T.items.forEach(function(m, i){
+      if (!per[m.s]) { per[m.s] = [0, 0]; order.push(m.s); }
+      per[m.s][1]++;
+      if (S.correct[i]) per[m.s][0]++;
+    });
+    var rows = order.map(function(k){
+      return '<tr><td>' + k + '</td><td>' + per[k][0] + ' / ' + per[k][1] + '</td></tr>';
+    }).join('');
+    var pct = Math.round(100 * s.correct / s.total);
+    done.innerHTML = '<div class="dt">' + s.correct + ' / ' + s.total + '</div>'
+      + '<div class="dd">' + pct + '% on ' + T.n + ' — where the marks went:</div>'
+      + '<table>' + rows + '</table>'
+      + '<div class="grade">' + grade(pct) + '</div>';
+    done.classList.add('show');
+  } else {
+    done.classList.remove('show');
+  }
+}
+
+/* ---------------------------------------------------------------- render */
+function draw(){
+  var T = TESTS[cur], S = state[cur];
+  list.innerHTML = '';
+  var shownSection = null;
+
+  T.items.forEach(function(m, i){
+    if (S.onlyWrong && !(S.answered[i] !== undefined && !S.correct[i])) return;
+
+    if (m.s !== shownSection) {
+      shownSection = m.s;
+      var h = document.createElement('div');
+      h.className = 'sec';
+      h.innerHTML = '<div class="sn">' + T.n + '</div>'
+                  + '<div class="st">' + m.s + '</div><div class="sr"></div>';
+      list.appendChild(h);
+    }
+
+    var d = document.createElement('div');
+    d.className = 'q';
+
+    /* scramble the option order from the question text, so the key is never a pattern */
+    var h2 = i * 17 + 5;
+    for (var c = 0; c < m.q.length; c++) h2 = (h2 * 31 + m.q.charCodeAt(c)) | 0;
+    var rot = ((h2 % m.o.length) + m.o.length) % m.o.length;
+    var order = m.o.map(function(_, k){ return (k + m.o.length - rot) % m.o.length; });
+    var ans = order.indexOf(m.a);
+
+    var opts = '';
+    order.forEach(function(src, k){
+      opts += '<button class="opt" data-k="' + k + '"><span class="ol">' + LET[k] + '</span>'
+            + '<span>' + m.o[src] + '</span>'
+            + '<span class="mk"></span></button>';
+    });
+
+    d.innerHTML = '<div class="qh"><span class="qn">' + m.n + '</span>'
+                + '<span class="qtag">' + m.s + '</span></div>'
+                + '<div class="qq">' + m.q + '</div>'
+                + '<div class="opts">' + opts + '</div>'
+                + '<div class="ansline"></div>'
+                + '<div class="expl"><div class="el">Worked answer</div>' + m.x + '</div>';
+
+    var btns = [].slice.call(d.querySelectorAll('.opt'));
+    var line = d.querySelector('.ansline');
+
+    function settle(picked){
+      btns.forEach(function(x, j){
+        x.disabled = true;
+        if (j === ans) {
+          x.classList.add('correct');
+          x.querySelector('.mk').textContent = 'correct answer';
+        }
+      });
+      if (picked !== null && picked !== undefined && picked !== ans) {
+        btns[picked].classList.add('wrong');
+        btns[picked].querySelector('.mk').textContent = 'you chose this';
+      }
+      if (picked === null || picked === undefined) {
+        line.innerHTML = '<span class="pill ok">' + LET[ans] + '</span>'
+                       + '<span>The correct answer is <b>' + LET[ans] + '</b>.</span>';
+      } else if (picked === ans) {
+        line.innerHTML = '<span class="pill ok">✓ Correct</span>'
+                       + '<span>The answer is <b>' + LET[ans] + '</b>.</span>';
+      } else {
+        line.innerHTML = '<span class="pill no">✕ Not quite</span>'
+                       + '<span>You chose <b>' + LET[picked] + '</b>. The correct answer is <b>' + LET[ans] + '</b>.</span>';
+      }
+      line.classList.add('show');
+      d.querySelector('.expl').classList.add('show');
+    }
+
+    if (S.answered[i] !== undefined) {
+      settle(S.answered[i]);
+    } else if (S.revealAll) {
+      settle(null);                    /* shows the key, scores nothing */
+    } else {
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){
+          var k = +b.dataset.k;
+          S.answered[i] = k;
+          S.correct[i]  = (k === ans);
+          settle(k);
+          board();
+        });
+      });
+    }
+    list.appendChild(d);
+  });
+
+  if (!list.children.length) {
+    list.innerHTML = '<div class="q"><div class="qq" style="margin:0">'
+      + 'No mistakes to review in this test yet.</div></div>';
+  }
+}
+
+/* ---------------------------------------------------------------- controls */
+document.getElementById('btnReset').addEventListener('click', function(){
+  state[cur] = {answered:{}, correct:{}, onlyWrong:false, revealAll:false};
+  draw(); board();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+document.getElementById('btnWrong').addEventListener('click', function(){
+  var S = state[cur];
+  S.onlyWrong = !S.onlyWrong;
+  if (S.onlyWrong) S.revealAll = false;
+  draw(); board();
+});
+document.getElementById('btnReveal').addEventListener('click', function(){
+  var S = state[cur];
+  S.revealAll = !S.revealAll;
+  if (S.revealAll) S.onlyWrong = false;
+  draw(); board();
+});
+
+pick(0);
+})();
+</script>
+</body>
+</html>
